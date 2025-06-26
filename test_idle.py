@@ -1,15 +1,19 @@
 import discord
+from discord.ext import commands
 import os
 from dotenv import load_dotenv
 
 load_dotenv()
-TOKEN = os.getenv('TEST_BOT_TOKEN')
-
-class MyClient(discord.Client):
-    async def on_ready(self):
-        await self.change_presence(status=discord.Status.idle)
-        print(f'Logged in')
+BOT_TOKEN = os.getenv('TEST_BOT_TOKEN')
 
 intents = discord.Intents.default()
-client = MyClient(intents=intents)
-client.run(TOKEN)
+intents.message_content = True
+bot = commands.Bot(command_prefix="", intents=intents)
+
+@bot.event
+async def on_ready():
+    await bot.change_presence(status=discord.Status.idle)
+    print(f"Bot: Logged in & Set to idle")
+
+bot.run(BOT_TOKEN)
+
