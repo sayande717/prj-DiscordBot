@@ -20,7 +20,7 @@ git clone https://github.com/sayande717/prj-discord_bot.git
 - Discord py:
     ```bash
     # Using an AUR Helper:
-    yay -S python-discord-py
+    paru -S python-discord
     # Manually:
     git clone https://aur.archlinux.org/python-discord-py.git
     cd python-discord-py
