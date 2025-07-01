@@ -47,7 +47,7 @@ Download: **XXX.XX Mbps**
 """
 @bot.tree.command(guild=discord.Object(id=SERVER_ID), name="wan_speed", description="Check the Internet upstream speed")
 async def wan_speed_ondemand(interaction: discord.Interaction,
-    server_id: str = "40255"
+    server_id: str = os.getenv('speedtest_SERVER_ID')
     ):
     # Defer the response to indicate that the bot is processing the command
     await interaction.response.defer(thinking=True)
