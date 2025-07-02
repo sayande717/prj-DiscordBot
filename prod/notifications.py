@@ -32,7 +32,7 @@ async def on_ready():
 
 """
 Function: `wan_speed_periodic()`
-Interval: Every 2 hours 45 minutes (9900 seconds)
+Interval: Every 3 hours 45 minutes (13500 seconds)
 Utility: Periodically checks for new speed test results in a CSV file and sends updates to a Discord channel.
 Input: Reads from "./helper/speedtest_results.csv"
 Output: Sends formatted speed test results to the specified Discord channel
@@ -46,7 +46,7 @@ Download: **XXX.XX Mbps**
 target_wan_speed_csv = "./helper/speedtest_periodic.csv"
 last_seen_lines = helper_wan_speed_periodic(target_wan_speed_csv)
 
-@tasks.loop(seconds=9900)
+@tasks.loop(seconds=13500)
 async def wan_speed_periodic():
     global last_seen_lines
     global target_wan_speed_csv

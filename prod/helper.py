@@ -2,6 +2,7 @@ import subprocess
 import re
 from datetime import datetime
 
+
 """
 Function: `helper_wan_ping(ip_address)`
 Utility: Pings a given IP address and returns the round-trip time in milliseconds as a string.
@@ -11,7 +12,7 @@ Output: `XX ms` or `-1 ms`, Target variable: null
 def helper_wan_ping(ip_address):
     try:
         result = subprocess.run(
-            ["ping", "-c", "1", ip_address],
+            ["ping", "-c", "2", ip_address],
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             text=True,
@@ -28,6 +29,10 @@ def helper_wan_ping(ip_address):
     except Exception as e:
         return ["-1"]
 
+# TEST
+#print(helper_wan_ping("1.1.1.1"))
+
+
 """
 Function: `get_lines()`
 Utility: Reads WAN speed test results from a CSV file and returns them as a set of lines.
@@ -41,6 +46,10 @@ def helper_wan_speed_periodic(target_csv):
             return set(f.readlines())
     except FileNotFoundError:
         return set()
+
+# TEST
+#print(helper_wan_speed_periodic("wan_speed.csv"))
+
 
 """
 Function: `helper_wan_speed_ondemand(server_id="")`
@@ -74,3 +83,6 @@ def helper_wan_speed_ondemand(server_id):
             return ["-1", "-1", "-1", "-1", "-1"]
     except Exception:
         return ["-1", "-1", "-1", "-1", "-1"]
+
+# TEST
+#print(helper_wan_speed_ondemand("12221"))
