@@ -5,8 +5,9 @@ import os
 from dotenv import load_dotenv
 load_dotenv()
 
-SERVER_COUNT = 3
-UPSTREAM_DNS_COUNT = 2
+SERVER_ID = int(os.getenv('SERVER_ID')) # type: ignore
+SERVER_COUNT = int(os.getenv('SERVER_COUNT')) # type: ignore
+UPSTREAM_DNS_COUNT=int(os.getenv('UPSTREAM_DNS_COUNT')) # type: ignore
 
 """
 Function: `helper_wan_ping(ip_address)`

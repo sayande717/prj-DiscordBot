@@ -9,10 +9,9 @@ import asyncio
 from datetime import datetime
 load_dotenv()
 
-BOT_TOKEN = os.getenv('NOTIFICATIONS_BOT_TOKEN')
 SERVER_ID = int(os.getenv('SERVER_ID')) # type: ignore
-SERVER_COUNT = os.getenv('SERVER_COUNT')
-UPSTREAM_DNS_COUNT=os.getenv('UPSTREAM_DNS_COUNT')
+SERVER_COUNT = int(os.getenv('SERVER_COUNT')) # type: ignore
+UPSTREAM_DNS_COUNT=int(os.getenv('UPSTREAM_DNS_COUNT')) # type: ignore
 
 intents = discord.Intents.default()
 intents.message_content = True
@@ -86,12 +85,12 @@ Output:
 *or*
 > Server-**X** is :red_circle:
 """
-current_status = [-1] * 
+current_status = [-1] * SERVER_COUNT
 @tasks.loop(seconds=10)
 async def server_status_periodic():
     global current_status
     channel = bot.get_channel(int(os.getenv('CHANNEL_ID_bot_notifications_vlan-0_status'))) #type: ignore
-    for i in range(int(SERVER_COUNT)): # type: ignore
+    for i in range(SERVER_COUNT): # type: ignore
         host = os.getenv(f'ID_SERVER_TAILSCALE-{i}')
         try:
             proc = await asyncio.create_subprocess_exec(
@@ -112,4 +111,4 @@ async def server_status_periodic():
             await channel.send(f"\n### {date_str} at {time_str}:\n> Server-**{i}** {'is :green_circle:' if returncode == 0 else 'is :red_circle:'}")
         current_status[i] = returncode
 
-bot.run(BOT_TOKEN) # type: ignore
+bot.run(os.getenv('NOTIFICATIONS_BOT_TOKEN')) # type: ignore
