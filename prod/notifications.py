@@ -7,7 +7,7 @@ import subprocess
 
 load_dotenv()
 BOT_TOKEN = os.getenv('NOTIFICATIONS_BOT_TOKEN')
-SERVER_ID = int(os.getenv('SERVER_ID'))
+SERVER_ID = int(os.getenv('SERVER_ID')) # type: ignore
 
 intents = discord.Intents.default()
 intents.message_content = True
@@ -54,7 +54,7 @@ async def wan_speed_periodic():
         lines = set(f.readlines())
     new_lines = lines - last_seen_lines
     if new_lines:
-        channel = bot.get_channel(int(os.getenv('CHANNEL_ID_bot_notifications_v0-speedtest')))
+        channel = bot.get_channel(int(os.getenv('CHANNEL_ID_bot_notifications_v0-speedtest')))  # type: ignore
         for line in new_lines:
             # Matches with format on CSV: date,time,latency,upload,download
             date, time, latency, upload, download = line.strip().split(",")
@@ -64,7 +64,7 @@ async def wan_speed_periodic():
                 f"Upload: {upload} Mbps\n"
                 f"Download: {download} Mbps"
             )
-            await channel.send(output_str)
+            await channel.send(output_str)# type: ignore
         last_seen_lines = lines
 
-bot.run(BOT_TOKEN)
+bot.run(BOT_TOKEN) # type: ignore

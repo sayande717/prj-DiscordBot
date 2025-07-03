@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 from helper import *
 load_dotenv()
 
-SERVER_ID = int(os.getenv('SERVER_ID'))
+SERVER_ID = int(os.getenv('SERVER_ID')) # type: ignore
 
 intents = discord.Intents.default()
 intents.message_content = True
@@ -47,7 +47,7 @@ Download: **XXX.XX Mbps**
 """
 @bot.tree.command(guild=discord.Object(id=SERVER_ID), name="wan_speed", description="Check the Internet upstream speed")
 async def wan_speed_ondemand(interaction: discord.Interaction,
-    server_id: str = os.getenv('speedtest_SERVER_ID')
+    server_id: str = os.getenv('speedtest_SERVER_ID') # type: ignore
     ):
     # Defer the response to indicate that the bot is processing the command
     await interaction.response.defer(thinking=True)
@@ -95,4 +95,4 @@ async def status_dns(interaction: discord.Interaction,
         output_str = "-1"
     await interaction.followup.send(output_str)
 
-bot.run(os.getenv('COMMANDS_BOT_TOKEN'))
+bot.run(os.getenv('COMMANDS_BOT_TOKEN')) # type: ignore
