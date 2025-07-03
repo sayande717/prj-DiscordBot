@@ -94,7 +94,7 @@ async def server_status_periodic():
         host = os.getenv(f'ID_SERVER_TAILSCALE-{i}')
         try:
             proc = await asyncio.create_subprocess_exec(
-            "ping", "-c", "1", host,
+            "ping", "-c", "2", host,
             stdout=subprocess.DEVNULL,
             stderr=subprocess.DEVNULL,
             )
