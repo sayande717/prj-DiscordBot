@@ -6,6 +6,8 @@ from helper import *
 load_dotenv()
 
 SERVER_ID = int(os.getenv('SERVER_ID')) # type: ignore
+SERVER_COUNT = os.getenv('SERVER_COUNT')
+UPSTREAM_DNS_COUNT=os.getenv('UPSTREAM_DNS_COUNT')
 
 intents = discord.Intents.default()
 intents.message_content = True
