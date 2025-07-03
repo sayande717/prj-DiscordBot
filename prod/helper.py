@@ -1,7 +1,12 @@
 import subprocess
 import re
 from datetime import datetime
+import os
+from dotenv import load_dotenv
+load_dotenv()
 
+SERVER_COUNT = 3
+UPSTREAM_DNS_COUNT = 2
 
 """
 Function: `helper_wan_ping(ip_address)`
@@ -86,3 +91,40 @@ def helper_wan_speed_ondemand(server_id):
 
 # TEST
 #print(helper_wan_speed_ondemand("12221"))
+
+def helper_dns_status(server_type):
+    wan_url = "duckduckgo.com"
+    global SERVER_COUNT
+    global DNS_UPSTREAM_COUNT
+    results = []
+    # Local DNS Servers
+    if server_type == "lan":
+        for i in range(SERVER_COUNT): # type: ignore
+            server_ip = os.getenv(f"ID_SERVER-{i}")
+            result = subprocess.run(
+                ["nslookup", wan_url, server_ip], #type: ignore
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True,
+                timeout=10
+            ) # type: ignore
+            status = ":green_circle:" if result.returncode == 0 else ":red_circle:"
+            results.append(f"Server-{i}: {status}")
+    # Upstream DNS Servers
+    elif server_type == "wan":
+        for i in range(UPSTREAM_DNS_COUNT): #type: ignore
+            server_ip = os.getenv(f"ID_DNS_OPENDNS-{i}")
+            result = subprocess.run(
+                ["nslookup", wan_url, server_ip], #type: ignore
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True,
+                timeout=10
+            ) # type: ignore
+            status = ":green_circle:" if result.returncode == 0 else ":red_circle:"
+            results.append(f"Server-{i}: {status}")
+    return results
+
+# TEST
+# print(helper_dns_status("lan"))
+# print(helper_dns_status("wan"))

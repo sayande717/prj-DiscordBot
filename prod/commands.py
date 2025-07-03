@@ -60,4 +60,39 @@ async def wan_speed_ondemand(interaction: discord.Interaction,
         )
     await interaction.followup.send(output_str)
 
+"""
+Command: `/status_dns`
+Utility: Checks the status of local/upstream DNS servers.
+Input: Server Type:
+    - "lan": Local DNS servers
+    - "wan": Upstream DNS servers
+Output:
+    - "lan":
+        ```
+        ## Local DNS Status:
+        Server-0: :green_circle:
+        Server-1: :green_circle:
+        Server-2: :red_circle:
+        ```
+    - "wan":
+        ```
+        ## Upstream DNS Status:
+        Server-0: :green_circle:
+        Server-1: :green_circle:
+        ```
+"""
+
+@bot.tree.command(guild=discord.Object(id=SERVER_ID), name="status_dns", description="Check if the DNS servers are responding")
+async def status_dns(interaction: discord.Interaction,
+                     server_type: str = "lan"):
+    await interaction.response.defer(thinking=True)
+    output_list = helper_dns_status(server_type)
+    if server_type == "lan":
+        output_str = "## Local DNS Status:\n" + "\n".join(f"- {line}" for line in output_list)
+    elif server_type == "wan":
+        output_str = "## Upstream DNS Status:\n" + "\n".join(f"- {line}" for line in output_list)
+    else:
+        output_str = "-1"
+    await interaction.followup.send(output_str)
+
 bot.run(os.getenv('COMMANDS_BOT_TOKEN'))
