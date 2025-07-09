@@ -94,11 +94,11 @@ async def server_status_periodic():
         host = os.getenv(f'ID_SERVER_TAILSCALE-{i}')
         try:
             proc = await asyncio.create_subprocess_exec(
-            "ping", "-c", "2", host,
+            "ping", "-c", "3", "-W", "2" host,
             stdout=subprocess.DEVNULL,
             stderr=subprocess.DEVNULL,
             )
-            await asyncio.wait_for(proc.wait(), timeout=3)
+            await asyncio.wait_for(proc.wait(), timeout=5)
             returncode = proc.returncode
         except asyncio.TimeoutError:
             proc.kill()
