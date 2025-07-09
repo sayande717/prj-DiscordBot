@@ -74,7 +74,7 @@ async def wan_speed_periodic():
 
 """
 Function: `server_status_periodic()`
-Interval: Every 20 seconds
+Interval: Every 30 seconds
 Utility: 
 - Checks the online status of multiple servers by pinging their VPN IP addresses.
 - If a server's status changes (online/offline), sends a formatted notification to the specified Discord channel.
@@ -86,7 +86,7 @@ Output:
 > Server-**X** is :red_circle:
 """
 current_status = [-1] * SERVER_COUNT
-@tasks.loop(seconds=20)
+@tasks.loop(seconds=30)
 async def server_status_periodic():
     global current_status
     channel = bot.get_channel(int(os.getenv('CHANNEL_ID_bot_notifications_vlan-0_status'))) #type: ignore
